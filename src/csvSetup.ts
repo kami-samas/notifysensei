@@ -1,5 +1,6 @@
 import { createObjectCsvWriter } from 'csv-writer'
 import { FastifyInstance } from 'fastify'
+import csvToJson from 'csvtojson'
 import fs from 'fs'
 
 // @ts-ignore
@@ -19,5 +20,13 @@ export default (fastify: FastifyInstance) => {
         ]
     });
 
-    fastify.decorate('csvWriter', csvWriter);
+    fastify.decorate('csv', {
+        writer: csvWriter,
+        reader: csvReader
+    });
+}
+
+const csvReader = async (id: string) => {
+    const data = await csvToJson().fromFile(csvFile)
+    return data.find((d) => d.ID === id)
 }
