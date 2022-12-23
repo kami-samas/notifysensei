@@ -3,6 +3,7 @@ import adminKey from './adminKey'
 import csvSetup from './csvSetup'
 import routes from './routes'
 import { applicationDefault, initializeApp } from 'firebase-admin/app'
+import { Snowflake } from 'nodejs-snowflake'
 
 // @ts-ignore
 import { port } from '../config'
@@ -37,6 +38,7 @@ initializeApp({
 })
 adminKey(fastify.log);
 csvSetup(fastify);
+fastify.decorate('snowflake', new Snowflake())
 const endTiming = parseHrtimeToMs(process.hrtime(timing));
 fastify.log.info(`Server Configuration ended in ${endTiming}s`);
 

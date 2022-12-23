@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">NotifySensei</string>
+
+    <string name="login_domain_hint">[Domain/Ip]:Port</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="login_key_hint">Key</string>
+    <string name="title_activity_login">Login</string>
+    <string name="login">Login</string>
+    <string name="logout">LogOut</string>
+    <string name="title_activity_logged_in">Logged In</string>
+
 </resources>

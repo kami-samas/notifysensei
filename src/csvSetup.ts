@@ -16,6 +16,7 @@ export default (fastify: FastifyInstance) => {
         path: csvFile,
         header: [
             { id: 'serviceID', title: 'ID' },
+            { id: 'serviceName', title: 'NAME'},
             { id: 'key', title: 'KEY' },
         ]
     });
@@ -26,7 +27,17 @@ export default (fastify: FastifyInstance) => {
     });
 }
 
-const csvReader = async (id: string) => {
+const csvReader = async ({ id, name, key }: { id: string; name: string; key: string; }) => {
     const data = await csvToJson().fromFile(csvFile)
-    return data.find((d) => d.ID === id)
+    return data.find((service: { ID: string; NAME: string; KEY: string; }) => {
+        if (id) {
+            return service.ID === id
+        }
+        if (name) {
+            return service.NAME === name
+        }
+        if (key) {
+            return service.KEY === key
+        }
+    })
 }

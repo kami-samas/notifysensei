@@ -13,6 +13,7 @@ export default (fastify: FastifyBaseLogger) => {
         key = fs.readFileSync(`${dir}/admin.key`, 'utf8')
     } catch (e) {}
     if (key) {
+        process.env.adminKey = key;
         return key;
     }
     const newKey = shelljs.exec('openssl rand -hex 50', { silent: true }).stdout;

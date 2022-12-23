@@ -1,43 +1,29 @@
 package dev.kakarot.notifysensei
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import dev.kakarot.notifysensei.ui.theme.NotifySenseiTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            NotifySenseiTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
-            }
-        }
-    }
-}
+        setContentView(R.layout.activity_login)
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
+//        val domain = findViewById<TextView>(R.id.editTextDomain)
+//        val key = findViewById<TextView>(R.id.editTextKey)
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    NotifySenseiTheme {
-        Greeting("Android")
+//        val loginButton = findViewById<Button>(R.id.cirLoginButton)
+//        loginButton.setOnClickListener() {
+//            if (domain.text.isNullOrEmpty() || key.text.isNullOrEmpty()) {
+//                Toast.makeText(baseContext, "Enter Both The Values", Toast.LENGTH_LONG).show()
+//            } else {
+//                Toast.makeText(baseContext, "Logged In", Toast.LENGTH_LONG).show()
+//                setContentView(R.layout.activity_logged_in)
+//            }
+//        }
     }
 }
