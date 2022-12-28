@@ -13,7 +13,7 @@ export default async function serviceRoute(fastify: FastifyInstance) {
     // register test user without route
     // @ts-ignore
     const service = await fastify.csv.reader({ name: 'test' })
-    if (!service) {
+    if (!service) { 
         // @ts-ignore
         const id = fastify.snowflake.getUniqueID();
         const key = serviceKey();
