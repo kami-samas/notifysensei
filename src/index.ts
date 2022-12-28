@@ -6,7 +6,7 @@ import { applicationDefault, initializeApp } from 'firebase-admin/app'
 import { Snowflake } from 'nodejs-snowflake'
 
 // @ts-ignore
-import { port } from '../config'
+import { port, host } from '../config'
 
 const envToLogger = {
     development: {
@@ -45,7 +45,7 @@ fastify.log.info(`Server Configuration ended in ${endTiming}s`);
 // Register all routes
 routes(fastify);
 fastify.listen({
-    port,
+    port, host
 }, function (err) {
     if (err) {
         fastify.log.error(err)
