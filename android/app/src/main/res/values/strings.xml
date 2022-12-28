@@ -8,5 +8,7 @@
     <string name="login">Login</string>
     <string name="logout">LogOut</string>
     <string name="title_activity_logged_in">Logged In</string>
+    <string name="util_post_err_rs">Couldn\'t Get expected Response</string>
+    <string name="toast_both_val">Enter Both The Values</string>
 
 </resources>

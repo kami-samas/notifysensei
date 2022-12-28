@@ -12,6 +12,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,19 +20,19 @@
         android:text="@string/app_name"
         android:layout_marginTop="@dimen/loginViewsMargin"/>
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:id="@+id/textInputDomain"-->
-<!--        style="@style/parent"-->
-<!--        android:layout_marginTop="@dimen/loginViewsMargin">-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/loginCardRadius"
+        android:hint="@string/login_domain_hint"
+        style="@style/TextLabel">
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/editTextDomain"-->
-<!--            style="@style/modifiedEditText"-->
-<!--            android:hint="@string/login_domain_hint"-->
-<!--            android:inputType="text"-->
-<!--            android:textSize="20sp"-->
-<!--            android:maxLines="1" />-->
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_domain"
+            android:textColor="@color/whiteTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -44,7 +45,7 @@
             android:id="@+id/input_key"
             android:textColor="@color/whiteTextColor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -52,7 +53,6 @@
         android:id="@+id/cirLoginButton"
         style="@style/loginButton"
         android:text="@string/login"
-        android:layout_gravity="end"
         android:layout_marginTop="@dimen/loginViewsMargin"
         />
 
