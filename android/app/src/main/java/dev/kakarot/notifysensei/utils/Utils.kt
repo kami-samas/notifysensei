@@ -1,40 +1,57 @@
 package dev.kakarot.notifysensei.utils
 
-import dev.kakarot.notifysensei.R
-import org.json.JSONObject
-import java.net.HttpURLConnection
-import java.net.URL
 import android.content.Context
+import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import okhttp3.*
+import org.json.JSONObject
 
-fun makeHttpPostRequest(context: Context, url: String, jsonBody: JSONObject): String {
-    try {
-        val url = URL(url)
-        val connection = url.openConnection() as HttpURLConnection
 
-        connection.requestMethod = "POST"
-        connection.doOutput = true
-        connection.setRequestProperty("Content-Type", "application/json")
+fun makeHttpPostRequestAsync(url: String, jsonBody: JSONObject): Deferred<JSONObject> {
+   return GlobalScope.async {
+        val client = OkHttpClient()
 
-        val outputStream = connection.outputStream
-        outputStream.write(jsonBody.toString().toByteArray())
-        outputStream.flush()
-        outputStream.close()
+        val requestBody = RequestBody.create(
+            MediaType.parse("application/json; charset=utf-8"),
+            jsonBody.toString()
+        )
 
-        val responseCode = connection.responseCode
-        return if (responseCode == 200) {
-            val inputStream = connection.inputStream
-            val response = inputStream.bufferedReader().use { it.readText() }
-            val jsonResponse = JSONObject(response)
-            jsonResponse.getString("id")
-        } else if (responseCode == 400) {
-            val inputStream = connection.inputStream
-            val response = inputStream.bufferedReader().use { it.readText() }
-            val jsonResponse = JSONObject(response)
-            jsonResponse.getString("message")
+        val request = Request.Builder()
+            .url(url)
+            .post(requestBody)
+            .build()
+
+        val response = client.newCall(request).execute()
+        val statusCode = response.code()
+        // Check if the request was successful
+        if (statusCode == 200) {
+            val responseBody = response.body()?.string()
+            return@async JSONObject(responseBody)
         } else {
-            context.getString(R.string.util_post_err_rs)
+            return@async JSONObject()
         }
-    } catch (e: Exception) {
-        return "${e.message}"
     }
 }
+
+fun getInstallationToken(onSuccess: (token: String) -> Unit, onError: (e: Exception) -> Unit) {
+    FirebaseMessaging.getInstance().getToken()
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                // Invoke the success callback
+                onSuccess(token)
+            } else {
+                val e = task.exception
+
+                // Invoke the error callback
+                onError(e ?: Exception("Unknown error"))
+            }
+        }
+}
+
+

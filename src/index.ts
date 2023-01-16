@@ -2,11 +2,12 @@ import Fastify from 'fastify'
 import adminKey from './adminKey'
 import csvSetup from './csvSetup'
 import routes from './routes'
-import { applicationDefault, initializeApp } from 'firebase-admin/app'
+import admin from 'firebase-admin/app'
 import { Snowflake } from 'nodejs-snowflake'
-
 // @ts-ignore
 import { port, host } from '../config'
+// @ts-ignore
+import googleConfig from  '../configFiles/googleAccount.json'
 
 const envToLogger = {
     development: {
@@ -33,8 +34,12 @@ const fastify = Fastify({
 });
 
 const timing = process.hrtime();
-initializeApp({
-    credential: applicationDefault(),
+admin.initializeApp({
+    credential: admin.cert({
+        projectId: googleConfig.project_id,
+        clientEmail: googleConfig.client_email,
+        privateKey: googleConfig.private_key,
+    }),
 })
 adminKey(fastify.log);
 csvSetup(fastify);
@@ -52,7 +57,6 @@ fastify.listen({
         process.exit(1)
     }
 })
-
 
 function parseHrtimeToMs(hrtime: [number, number]) {
     return (hrtime[0] + (hrtime[1] / 1e9)).toFixed(3);

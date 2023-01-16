@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "292840497720",
+    "project_id": "notifysensei-77492",
+    "storage_bucket": "notifysensei-77492.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292840497720:android:19ea6300a95555d1fd3ccd",
+        "android_client_info": {
+          "package_name": "dev.kakarot.notifysensei"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "292840497720-fq4d4gicrpfh6ta5v7mgcg37l91t967i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.kakarot.notifysensei",
+            "certificate_hash": "f9a566b3a85cd6695825ab5e0e8ab8d0b27e2e7b"
+          }
+        },
+        {
+          "client_id": "292840497720-9gace7vniv0huh4omt3heg0q3c12buv7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDA3yhE7UT_grgn1_7bcYjUtZ3gwztdlOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "292840497720-9gace7vniv0huh4omt3heg0q3c12buv7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

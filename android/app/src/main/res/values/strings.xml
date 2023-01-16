@@ -8,7 +8,9 @@
     <string name="login">Login</string>
     <string name="logout">LogOut</string>
     <string name="title_activity_logged_in">Logged In</string>
-    <string name="util_post_err_rs">Couldn\'t Get expected Response</string>
-    <string name="toast_both_val">Enter Both The Values</string>
+    <string name="both_val_null">Enter Both The Values</string>
+    <string name="wrg_srv_key">Incorrect Email and password</string>
+    <string name="id">ID</string>
+    <string name="token_add">Token added</string>
 
 </resources>

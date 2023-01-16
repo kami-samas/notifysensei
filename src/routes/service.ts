@@ -1,5 +1,6 @@
 import shelljs from 'shelljs'
 import { FastifyInstance } from 'fastify'
+import * as admin from 'firebase-admin'
 
 interface IDParams {
     id: string;
@@ -10,10 +11,11 @@ interface CreateBody {
 }
 
 export default async function serviceRoute(fastify: FastifyInstance) {
+    
     // register test user without route
     // @ts-ignore
     const service = await fastify.csv.reader({ name: 'test' })
-    if (!service) { 
+    if (!service) {
         // @ts-ignore
         const id = fastify.snowflake.getUniqueID();
         const key = serviceKey();
@@ -55,6 +57,9 @@ export default async function serviceRoute(fastify: FastifyInstance) {
         const id = fastify.snowflake.getUniqueID();
         // @ts-ignore
         await fastify.csv.writer.writeRecords([{ serviceID: id, serviceName: name, key }])
+
+        // create a topic on firebase
+
         reply.send({ message: 'Service created', id, key })
     })
     // Verify
@@ -68,7 +73,32 @@ export default async function serviceRoute(fastify: FastifyInstance) {
             reply.code(404).send({ message: 'Service not found' })
             return
         }
-        reply.send({ message: 'Service verified', id: service.serviceID })
+        reply.send({ message: 'Service verified', id: service.ID })
+    })
+    // Add registeration token
+    fastify.post<{
+        Body: { key: string, token: string };
+    }>('/token', async (request, reply) => {
+        const { key, token } = request.body;
+        // @ts-ignore
+        const service = await fastify.csv.reader({ key })
+        if (!service) {
+            reply.code(404).send({ message: 'Service not found' })
+            return
+        }
+        if (service.TOKEN === token) {
+            reply.code(409).send({ message: 'Token already exists' })
+            return
+        }
+        try {
+            await admin.messaging().subscribeToTopic(token, service.NAME)
+            // @ts-ignore
+            await fastify.csv.writer.writeRecords([{ serviceID: service.ID, serviceName: service.NAME, key, token }])
+            reply.send({ message: 'Token added' })
+        } catch (e: any) {
+            reply.code(500).send({ message: e.message })
+        }
+
     })
 }
 

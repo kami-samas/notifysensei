@@ -18,6 +18,7 @@ export default (fastify: FastifyInstance) => {
             { id: 'serviceID', title: 'ID' },
             { id: 'serviceName', title: 'NAME'},
             { id: 'key', title: 'KEY' },
+            { id: 'token', title: 'TOKEN' }
         ]
     });
 
