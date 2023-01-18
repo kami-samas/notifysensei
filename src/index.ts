@@ -2,7 +2,7 @@ import Fastify from 'fastify'
 import adminKey from './adminKey'
 import csvSetup from './csvSetup'
 import routes from './routes'
-import admin from 'firebase-admin/app'
+import { initializeApp, cert } from 'firebase-admin/app'
 import { Snowflake } from 'nodejs-snowflake'
 // @ts-ignore
 import { port, host } from '../config'
@@ -34,8 +34,8 @@ const fastify = Fastify({
 });
 
 const timing = process.hrtime();
-admin.initializeApp({
-    credential: admin.cert({
+initializeApp({
+    credential: cert({
         projectId: googleConfig.project_id,
         clientEmail: googleConfig.client_email,
         privateKey: googleConfig.private_key,
@@ -61,4 +61,3 @@ fastify.listen({
 function parseHrtimeToMs(hrtime: [number, number]) {
     return (hrtime[0] + (hrtime[1] / 1e9)).toFixed(3);
 }
-
