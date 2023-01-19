@@ -17,7 +17,7 @@ export default async function notifyRoute(fastify: FastifyInstance) {
             reply.code(401).send({ message: 'Unauthorized' });
             return;
         }
-
+        console.log(`Sending notification to ${service.NAME}`);
         getMessaging().sendToTopic(service.NAME, {
             data: {
                 title, body

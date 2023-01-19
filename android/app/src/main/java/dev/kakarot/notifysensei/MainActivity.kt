@@ -33,6 +33,12 @@ class MainActivity : ComponentActivity() {
             StrictMode.setThreadPolicy(policy)
     }
         val sharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE)
+        getInstallationToken({ token ->
+            val editor = sharedPreferences.edit()
+            editor.putString("token", token)
+            editor.apply()
+            Toast.makeText(this@MainActivity, "$token", Toast.LENGTH_LONG).show()
+        }, {})
         if (sharedPreferences.contains("id")) {
             binding = DataBindingUtil.setContentView(this, R.layout.activity_logged_in)
             binding.userId.text = "ID: ${sharedPreferences.getString("id", "000000000")}"
@@ -86,11 +92,6 @@ class MainActivity : ComponentActivity() {
             }
         } else {
             setContentView(R.layout.activity_login)
-            getInstallationToken({ token ->
-                 val editor = sharedPreferences.edit()
-                editor.putString("token", token)
-                Toast.makeText(this@MainActivity, "Token Saved", Toast.LENGTH_LONG).show()
-            }, {})
             val domain = findViewById<TextView>(R.id.input_domain)
             val key = findViewById<TextView>(R.id.input_key)
 
