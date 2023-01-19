@@ -18,11 +18,12 @@ export default async function notifyRoute(fastify: FastifyInstance) {
             return;
         }
         console.log(`Sending notification to ${service.NAME}`);
-        getMessaging().sendToTopic(service.NAME, {
+        const recieved = await getMessaging().sendToTopic(service.NAME, {
             data: {
                 title, body
             }
         })
+        console.log(recieved)
         reply.send({ message: 'Notification sent' });
     })
 }
