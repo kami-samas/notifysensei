@@ -35,12 +35,9 @@ const fastify = Fastify({
 
 const timing = process.hrtime();
 initializeApp({
-    credential: cert({
-        projectId: googleConfig.project_id,
-        clientEmail: googleConfig.client_email,
-        privateKey: googleConfig.private_key,
-    }),
+    credential: cert(require('../configFiles/googleAccount.json')),
 })
+console.log(require('../configFiles/googleAccount.json'))
 adminKey(fastify.log);
 csvSetup(fastify);
 fastify.decorate('snowflake', new Snowflake())
