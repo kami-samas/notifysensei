@@ -91,7 +91,8 @@ export default async function serviceRoute(fastify: FastifyInstance) {
             return
         }
         try {
-            await admin.messaging().subscribeToTopic(token, service.NAME)
+            const response = await admin.messaging().subscribeToTopic(token, service.NAME)
+            console.log(response)
             // @ts-ignore
             await fastify.csv.writer.writeRecords([{ serviceID: service.ID, serviceName: service.NAME, key, token }])
             reply.send({ message: 'Token added' })
