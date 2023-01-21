@@ -3,3 +3,4 @@ keyFiles
 configFiles
 dist
 archive
+/config.json

@@ -1,30 +1,39 @@
 import { FastifyInstance } from "fastify";
-import { getMessaging } from "firebase-admin/messaging";
+import * as OneSignal from '@onesignal/node-onesignal'
+
+// @ts-ignore
+import { app_id } from '../../config.json'
+
 
 export default async function notifyRoute(fastify: FastifyInstance) {
     // post a notification
     fastify.post<{
         Body: {
-            serviceKey: string;
+            key: string;
             title: string;
             body: string;
         };
     }>('/', async (request, reply) => {
-        const { serviceKey, title, body } = request.body;
-        // @ts-ignore
-        const service = await fastify.csv.reader({ key: serviceKey });
-        if (!service) {
-            reply.code(401).send({ message: 'Unauthorized' });
+        const { title, body, key } = request.body;
+        // add check for key
+        if (key !== process.env.serverKey) {
+            reply.status(401).send('Invalid key');
             return;
         }
-        console.log(`Sending notification to ${service.NAME}`);
-        const recieved = await getMessaging().sendToTopic(service.NAME, {
-            data: {
-                title, body,
-            },
-            
-        })
-        console.log(recieved)
-        reply.send({ message: 'Notification sent' });
+        const notification = new OneSignal.Notification();
+        notification.priority = 10;
+        notification.app_id = app_id;
+        notification.included_segments = ['Subscribed Users'];
+        notification.headings = { en: title };
+        notification.contents = { en: body };
+
+        try {
+            // @ts-ignore
+            const response = await fastify.client.createNotification(notification);
+            reply.send(response);
+        }
+        catch (e: any) {
+            reply.status(500).send(e.message);
+        }
     })
 }

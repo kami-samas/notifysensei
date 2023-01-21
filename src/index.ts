@@ -1,13 +1,24 @@
 import Fastify from 'fastify'
-import adminKey from './adminKey'
-import csvSetup from './csvSetup'
+import serverKey from './serverKey'
 import routes from './routes'
-import { initializeApp, cert } from 'firebase-admin/app'
-import { Snowflake } from 'nodejs-snowflake'
+import * as OneSignal from '@onesignal/node-onesignal'
 // @ts-ignore
-import { port, host } from '../config'
-// @ts-ignore
-import googleConfig from  '../configFiles/googleAccount.json'
+import { port, host, app_key } from '../config'
+
+const app_key_provider = {
+    getToken() {
+        return app_key
+    }
+}
+
+const configuration = OneSignal.createConfiguration({
+    authMethods: {
+        app_key: {
+        	tokenProvider: app_key_provider
+        }
+    }
+});
+const client = new OneSignal.DefaultApi(configuration);
 
 const envToLogger = {
     development: {
@@ -33,17 +44,8 @@ const fastify = Fastify({
     logger: envToLogger['production'] ?? true
 });
 
-const timing = process.hrtime();
-initializeApp({
-    credential: cert(require('../configFiles/googleAccount.json')),
-})
-console.log(require('../configFiles/googleAccount.json'))
-adminKey(fastify.log);
-csvSetup(fastify);
-fastify.decorate('snowflake', new Snowflake())
-const endTiming = parseHrtimeToMs(process.hrtime(timing));
-fastify.log.info(`Server Configuration ended in ${endTiming}s`);
-
+serverKey(fastify.log);
+fastify.decorate('client', client);
 // Register all routes
 routes(fastify);
 fastify.listen({
@@ -54,7 +56,3 @@ fastify.listen({
         process.exit(1)
     }
 })
-
-function parseHrtimeToMs(hrtime: [number, number]) {
-    return (hrtime[0] + (hrtime[1] / 1e9)).toFixed(3);
-}

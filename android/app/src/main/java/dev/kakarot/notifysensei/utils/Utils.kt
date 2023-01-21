@@ -38,20 +38,4 @@ fun makeHttpPostRequestAsync(url: String, jsonBody: JSONObject): Deferred<JSONOb
     }
 }
 
-fun getInstallationToken(onSuccess: (token: String) -> Unit, onError: (e: Exception) -> Unit) {
-    FirebaseMessaging.getInstance().getToken()
-        .addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val token = task.result
-                // Invoke the success callback
-                onSuccess(token)
-            } else {
-                val e = task.exception
-
-                // Invoke the error callback
-                onError(e ?: Exception("Unknown error"))
-            }
-        }
-}
-
 

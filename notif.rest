@@ -1,0 +1,7 @@
+POST http://0.0.0.0:3020/n
+Content-Type: application/json
+
+{
+  "title": "test",
+  "body": "Helo"
+}

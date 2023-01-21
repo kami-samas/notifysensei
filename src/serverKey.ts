@@ -13,13 +13,13 @@ export default (fastify: FastifyBaseLogger) => {
         key = fs.readFileSync(`${dir}/admin.key`, 'utf8')
     } catch (e) {}
     if (key) {
-        process.env.adminKey = key;
+        process.env.serverKey = key;
         return key;
     }
-    const newKey = shelljs.exec('openssl rand -hex 50', { silent: true }).stdout;
+    const newKey = shelljs.exec('openssl rand -hex 20', { silent: true }).stdout;
     fastify.info(`Generated new admin key`);
-    fs.writeFileSync(`${dir}/admin.key`, newKey.trim());
-    fastify.info(`Saved new admin key to ${dir}/admin.key`);
+    fs.writeFileSync(`${dir}/server.key`, newKey.trim());
+    fastify.info(`Saved new server key to ${dir}/server.key`);
     process.env.adminKey = newKey.trim();
     return newKey.trim();
 }
