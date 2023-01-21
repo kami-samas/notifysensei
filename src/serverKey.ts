@@ -17,9 +17,10 @@ export default (fastify: FastifyBaseLogger) => {
         return key;
     }
     const newKey = shelljs.exec('openssl rand -hex 20', { silent: true }).stdout;
-    fastify.info(`Generated new admin key`);
+    fastify.info(`Generated new server key`);
     fs.writeFileSync(`${dir}/server.key`, newKey.trim());
     fastify.info(`Saved new server key to ${dir}/server.key`);
+    shelljs.exec(`mkdir ${dir}/notifs`, { silent: true })
     process.env.adminKey = newKey.trim();
     return newKey.trim();
 }

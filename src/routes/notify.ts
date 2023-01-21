@@ -1,8 +1,10 @@
 import { FastifyInstance } from "fastify";
 import * as OneSignal from '@onesignal/node-onesignal'
+import fs from 'fs'
+import path from 'path'
 
 // @ts-ignore
-import { app_id } from '../../config.json'
+import { app_id, dir } from '../../config.json'
 
 
 export default async function notifyRoute(fastify: FastifyInstance) {
@@ -11,10 +13,11 @@ export default async function notifyRoute(fastify: FastifyInstance) {
         Body: {
             key: string;
             title: string;
+            msg: string;
             body: string;
         };
     }>('/', async (request, reply) => {
-        const { title, body, key } = request.body;
+        const { title, msg, body, key } = request.body;
         // add check for key
         if (key !== process.env.serverKey) {
             reply.status(401).send('Invalid key');
@@ -30,6 +33,12 @@ export default async function notifyRoute(fastify: FastifyInstance) {
         try {
             // @ts-ignore
             const response = await fastify.client.createNotification(notification);
+            const timestamp = Date.now();
+            const fileName = path.join(`${process.cwd()}`, dir, "notifs", (response.id + "_" + timestamp +".txt"))
+            const fileContent = "Title: " + title + "\n" + "Body: " + body + "\n" + "Message: " + msg + "\n" + "Timestamp: " + timestamp;
+
+            fs.writeFileSync(fileName, fileContent);
+
             reply.send(response);
         }
         catch (e: any) {

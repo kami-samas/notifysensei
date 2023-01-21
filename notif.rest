@@ -3,5 +3,7 @@ Content-Type: application/json
 
 {
   "title": "test",
-  "body": "Helo"
+  "body": "Helo",
+  "msg": "test",
+  "key": "6b510f1867fd8cacf2af0312d348d18736f02bfe"
 }

@@ -14,7 +14,7 @@ const app_key_provider = {
 const configuration = OneSignal.createConfiguration({
     authMethods: {
         app_key: {
-        	tokenProvider: app_key_provider
+            tokenProvider: app_key_provider
         }
     }
 });
