@@ -1,9 +1,10 @@
 import Fastify from 'fastify'
 import serverKey from './serverKey'
 import routes from './routes'
+import path from 'path'
 import * as OneSignal from '@onesignal/node-onesignal'
 // @ts-ignore
-import { port, host, app_key } from '../config'
+import { port, host, app_key, dir } from '../config'
 
 const app_key_provider = {
     getToken() {
@@ -46,6 +47,11 @@ const fastify = Fastify({
 
 serverKey(fastify.log);
 fastify.decorate('client', client);
+
+fastify.register(require('@fastify/static'), {
+    root: path.join(process.cwd(), dir, 'notifs'),
+    prefix: '/s'
+})
 // Register all routes
 routes(fastify);
 fastify.listen({

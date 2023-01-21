@@ -10,7 +10,7 @@ export default (fastify: FastifyBaseLogger) => {
     }
     let key;
     try {
-        key = fs.readFileSync(`${dir}/admin.key`, 'utf8')
+        key = fs.readFileSync(`${dir}/server.key`, 'utf8')
     } catch (e) {}
     if (key) {
         process.env.serverKey = key;

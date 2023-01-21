@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/static": "^6.6.1",
     "@onesignal/node-onesignal": "1.0.0-beta9",
     "fastify": "^4.10.2",
     "shelljs": "^0.8.5",

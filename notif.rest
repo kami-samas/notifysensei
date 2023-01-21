@@ -1,9 +1,9 @@
-POST http://0.0.0.0:3020/n
+POST http://0.0.0.0:3200/n
 Content-Type: application/json
 
 {
-  "title": "test",
-  "body": "Helo",
-  "msg": "test",
-  "key": "6b510f1867fd8cacf2af0312d348d18736f02bfe"
+  "title": "please you come on tommorw church",
+  "body": " you are a bod very bad ",
+  "msg": "testhvhchcguc",
+  "key": "c0cda5980a695c32978da54aa44076fdd280da87"
 }
