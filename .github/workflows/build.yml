@@ -1,9 +1,9 @@
 name: Build app
 
 on:
-  fork:
-    branches:
-      - main
+  push:
+    tags:
+    - '*'
 
 jobs:
   build:
