@@ -3,7 +3,7 @@ package dev.kakarot.notifysensei
 import android.app.Application
 import com.onesignal.OneSignal
 
-const val ONESIGNAL_APP_ID = "c9e94e37-f824-4708-a290-b6aaa8f4f7aa"
+const val ONESIGNAL_APP_ID = ""
 
 class NotifySensei : Application() {
     override fun onCreate() {
